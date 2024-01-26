@@ -21,7 +21,7 @@ fermi_surf = spectral.spectral_func(kx_fs, ky_fs, 0, 0)
 
 """make dos for the different omega, sum over k space"""
 # number of points for sampling in the 2d k space
-N_samples = 10000
+N_samples = 100000
 omega = np.linspace(-6, 4, 100)
 dos = np.zeros(len(omega))
 for i in range(len(omega)):
