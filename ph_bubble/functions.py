@@ -99,6 +99,13 @@ class Bubble:
         integral = sum(self.spectral_func(random_k[:, 0], random_k[:, 1], omega, mu)) / N_samples
         return integral
 
+    def integrate_spectral_uniform(self, omega, N_vector, mu):
+        sample = Sampling_kx_ky()
+        uniform_k = sample.uniform_sample(n_vector=N_vector)
+        N_samples = len(uniform_k[0])
+        integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
+        return integral, N_samples
+
     def integrate_lindhard(self, qx, qy, Omega, N_samples, mu):
         sample = Sampling_kx_ky()
         random_k = sample.sampling(N_samples)

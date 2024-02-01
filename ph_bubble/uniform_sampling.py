@@ -17,7 +17,7 @@ sample = Sampling_kx_ky()
 points = sample.sampling(N=N)
 
 "uniform sampling of triangular lattice"
-uniform_points = sample.uniform_sample(n_vector=100)
+uniform_points = sample.uniform_sample(n_vector=10)
 print(len(uniform_points[0]))
 
 """corner points, 6 nearest neighbors"""

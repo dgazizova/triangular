@@ -25,10 +25,11 @@ N_samples = 100000
 omega = np.linspace(-6, 4, 100)
 dos = np.zeros(len(omega))
 for i in range(len(omega)):
-    dos[i] = spectral.integrate_spectral(omega[i], N_samples, 0)
+    # dos[i] = spectral.integrate_spectral(omega[i], N_samples, 0)
+    dos[i], N_v_samples = spectral.integrate_spectral_uniform(omega=omega[i], N_vector=100, mu=0)
 
 
-
+print(N_v_samples)
 
 
 """corner points, 6 nearest neighbors"""
