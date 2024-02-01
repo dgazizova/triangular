@@ -15,6 +15,8 @@ b = np.pi * 4 / 3
 N = 100000
 sample = Sampling_kx_ky()
 points = sample.sampling(N=N)
+
+"uniform sampling of triangular lattice"
 uniform_points = sample.uniform_sample(n_vector=100)
 print(len(uniform_points[0]))
 
