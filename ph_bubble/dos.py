@@ -15,7 +15,7 @@ ky_fs = np.linspace(-b, b, fermi_surf_number)
 kx_fs, ky_fs = np.meshgrid(kx_fs, ky_fs)
 
 """lifshits transition at mu = 2 at van hof singularity """
-spectral = Bubble(t=1, beta=5, tp=-1)
+spectral = Bubble(t=1, beta=5, tp=0)
 fermi_surf = spectral.spectral_func(kx_fs, ky_fs, 0, 0)
 
 
@@ -25,9 +25,10 @@ N_samples = 100000
 omega = np.linspace(-6, 4, 100)
 dos = np.zeros(len(omega))
 for i in range(len(omega)):
+    #uncomment bellow for random sampling of k points in dos
     # dos[i] = spectral.integrate_spectral(omega[i], N_samples, 0)
     #integrate_spectral_uniform samples through hexagon and integrate_spectral_uniform_triangle sample through triangle
-    dos[i], N_v_samples = spectral.integrate_spectral_uniform_triangle(omega=omega[i], N_vector=200, mu=0)
+    dos[i], N_v_samples = spectral.integrate_spectral_uniform_triangle(omega=omega[i], N_vector=400, mu=0)
 
 print(N_v_samples)
 

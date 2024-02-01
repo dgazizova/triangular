@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-"""method for sampling hexagon"""
 
 
 class Sampling_kx_ky:
@@ -43,6 +42,7 @@ class Sampling_kx_ky:
         return cut_x, cut_y
 
     def uniform_sample(self, n_vector):
+        """function to uniformly sample hexagon using triangular grid"""
         #2 vectors of triangular lattice
         k1 = [2 * np.pi / np.sqrt(3), 2 * np.pi / 3]
         k2 = [0, 4 * np.pi / 3]
@@ -63,6 +63,7 @@ class Sampling_kx_ky:
         return uniform_points
 
     def uniform_sample_triangle(self, n_vector):
+        """function to uniformly sample only one triangle of hexagon using triangular grid"""
         #2 vectors of triangular lattice
         k1 = [2 * np.pi / np.sqrt(3), 2 * np.pi / 3]
         k2 = [0, 4 * np.pi / 3]
@@ -111,7 +112,7 @@ class Bubble:
             (self.get_dispersion_triangular(kx, ky, mu) - self.get_dispersion_triangular(kx + qx, ky + qy, mu) + Omega)
 
     def spectral_func(self, kx, ky, omega, mu):
-        return np.imag(1 / (omega - self.get_dispersion_triangular(kx, ky, mu) - 0.01j))
+        return np.imag(1 / (omega - self.get_dispersion_triangular(kx, ky, mu) - 0.01j)) * 1/np.pi
 
     def integrate_spectral(self, omega, N_samples, mu):
         sample = Sampling_kx_ky()
