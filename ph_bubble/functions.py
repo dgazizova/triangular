@@ -62,6 +62,26 @@ class Sampling_kx_ky:
         uniform_points[1] = np.array(uniform_points[1])
         return uniform_points
 
+    def uniform_sample_triangle(self, n_vector):
+        #2 vectors of triangular lattice
+        k1 = [2 * np.pi / np.sqrt(3), 2 * np.pi / 3]
+        k2 = [0, 4 * np.pi / 3]
+        uniform_points = [[], []]
+        k1 = np.array(k1) / n_vector
+        k2 = np.array(k2) / n_vector
+        for i in range(0, n_vector + 1):
+            for j in range(0, n_vector + 1):
+                kx = k1[0] * i + k2[0] * j
+                ky = k1[1] * i + k2[1] * j
+                # to cut points outside of hexagon
+                if i + j > n_vector or i + j < - n_vector:
+                    continue
+                uniform_points[0].append(kx)
+                uniform_points[1].append(ky)
+        uniform_points[0] = np.array(uniform_points[0])
+        uniform_points[1] = np.array(uniform_points[1])
+        return uniform_points
+
 
 # calculate bubble objects
 class Bubble:
@@ -102,6 +122,13 @@ class Bubble:
     def integrate_spectral_uniform(self, omega, N_vector, mu):
         sample = Sampling_kx_ky()
         uniform_k = sample.uniform_sample(n_vector=N_vector)
+        N_samples = len(uniform_k[0])
+        integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
+        return integral, N_samples
+
+    def integrate_spectral_uniform_triangle(self, omega, N_vector, mu):
+        sample = Sampling_kx_ky()
+        uniform_k = sample.uniform_sample_triangle(n_vector=N_vector)
         N_samples = len(uniform_k[0])
         integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
         return integral, N_samples
