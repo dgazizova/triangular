@@ -29,6 +29,8 @@ for i in range(len(omega)):
 
 
 
+
+
 """corner points, 6 nearest neighbors"""
 corner_x = [0, 2 / np.sqrt(3) * np.pi, 2 / np.sqrt(3) * np.pi, 0, -2 / np.sqrt(3) * np.pi, -2 / np.sqrt(3) * np.pi, 0]
 corner_y = [4 * np.pi / 3, 2 * np.pi / 3, -2 * np.pi / 3, -4 * np.pi / 3, -2 * np.pi / 3, 2 * np.pi / 3, 4 * np.pi / 3]
@@ -37,6 +39,7 @@ corner_y = [4 * np.pi / 3, 2 * np.pi / 3, -2 * np.pi / 3, -4 * np.pi / 3, -2 * n
 """plot fermi surface with the first BZ white lines"""
 plt.pcolormesh(kx_fs, ky_fs, fermi_surf)
 plt.plot(corner_x, corner_y, '--', color="white")
+plt.text(np.pi / np.sqrt(3), np.pi/2, ".",  fontsize=16, color='red')
 plt.colorbar()
 plt.xlabel('kx')
 plt.ylabel('ky')
