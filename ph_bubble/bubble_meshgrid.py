@@ -16,7 +16,7 @@ qx, qy = np.meshgrid(qx, qy)
 print(qx)
 # exit(0)
 bubble_res_mu0 = bubble.integrate_lindhard_meshgrid(qx=qx.flatten(), qy=qy.flatten(), Omega=0, N_samples=n_sampling,
-                                                    mu=0)
+                                                    mu=2)
 
 bubble_res_mu0 = bubble_res_mu0.reshape(qx.shape)
 plt.figure()

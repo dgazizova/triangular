@@ -112,7 +112,7 @@ class Bubble:
             (self.get_dispersion_triangular(kx, ky, mu) - self.get_dispersion_triangular(kx + qx, ky + qy, mu) + Omega)
 
     def spectral_func(self, kx, ky, omega, mu):
-        return np.imag(1 / (omega - self.get_dispersion_triangular(kx, ky, mu) - 0.01j)) * 1/np.pi
+        return np.imag(1 / (omega - self.get_dispersion_triangular(kx, ky, mu) - 0.1j)) * 1/np.pi
 
     def integrate_spectral(self, omega, N_samples, mu):
         sample = Sampling_kx_ky()
@@ -127,12 +127,28 @@ class Bubble:
         integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
         return integral, N_samples
 
+    def spectral_surface(self, omega, N_vector, mu):
+        sample = Sampling_kx_ky()
+        uniform_k = sample.uniform_sample(n_vector=N_vector)
+        # N_samples = len(uniform_k[0])
+        spectral = np.vectorize(self.spectral_func)(uniform_k[0], uniform_k[1], omega, mu)
+        return spectral
+
+
     def integrate_spectral_uniform_triangle(self, omega, N_vector, mu):
         sample = Sampling_kx_ky()
         uniform_k = sample.uniform_sample_triangle(n_vector=N_vector)
         N_samples = len(uniform_k[0])
         integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
         return integral, N_samples
+
+    def integrate_spectral_uniform_cut(self, omega, N_cut, mu):
+        sample = Sampling_kx_ky()
+        cut_x, cut_y = sample.sample_cut(N_cut)
+        N_samples = len(cut_x)
+        integral = sum(self.spectral_func(cut_x, cut_y, omega, mu)) / N_samples
+        return integral, N_samples
+
 
     def integrate_lindhard(self, qx, qy, Omega, N_samples, mu):
         sample = Sampling_kx_ky()
