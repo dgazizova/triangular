@@ -1,4 +1,4 @@
-"""sampling points inside triangular lattice and  RPA calculation of W for triangular"""
+"""bubble diagram calculation for k space point calculation with different mu values"""
 import numpy as np
 import matplotlib.pyplot as plt
 from functions import Sampling_kx_ky, Bubble
@@ -14,10 +14,12 @@ kf3 = [np.pi/np.sqrt(3), np.pi]
 
 # mu should be numpy array
 mu = np.linspace(-2, 2.5, 30)
-bubble3 = Bubble(t=1, beta=5, tp=0)
-bubble_res_mu3 = bubble3.integrate_lindhard_mu(qx=kf2[0], qy=kf2[1], Omega=0, N_samples=n_sampling, mu=mu)
+t = 1
+tp = 0
+bubble = Bubble(t=t, beta=5, tp=tp)
+bubble_res_mu = bubble.integrate_lindhard_mu(qx=kf2[0], qy=kf2[1], Omega=0, N_samples=n_sampling, mu=mu)
 
-plt.plot(mu, bubble_res_mu3, label='t=1, tp=0, kf2 point')
+plt.plot(mu, bubble_res_mu, label=f't={t}, tp={tp}, kf2 point')
 plt.legend()
 # plt.grid()
 plt.show()

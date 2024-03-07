@@ -1,4 +1,4 @@
-"""sampling points inside triangular lattice and  RPA calculation of W for triangular"""
+"""bubble diagram in q space, plot in the using square grid and 3d view of the function"""
 import numpy as np
 import matplotlib.pyplot as plt
 from functions import Sampling_kx_ky, Bubble
@@ -13,8 +13,6 @@ bubble = Bubble(t=1, beta=5, tp=0)
 qx = np.linspace(-2 * np.pi / np.sqrt(3), 2 * np.pi / np.sqrt(3), 30)
 qy = np.linspace(-4 * np.pi / 3, 4 * np.pi / 3, 30)
 qx, qy = np.meshgrid(qx, qy)
-print(qx)
-# exit(0)
 bubble_res_mu0 = bubble.integrate_lindhard_meshgrid(qx=qx.flatten(), qy=qy.flatten(), Omega=0, N_samples=n_sampling,
                                                     mu=2)
 

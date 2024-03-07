@@ -1,4 +1,4 @@
-"""code that shows random sampling of the hexagon and dispersion relation through the cut"""
+"""uniform sampling using triangle grid"""
 
 
 import numpy as np
@@ -17,7 +17,7 @@ sample = Sampling_kx_ky()
 points = sample.sampling(N=N)
 
 "uniform sampling of triangular lattice"
-n_vector = 10
+n_vector = 15 # number of separation of the reciprocal vectors, make it bigger to make grid more dense
 uniform_points = sample.uniform_sample_q_space(n_vector=n_vector)
 print(len(uniform_points[0]))
 

@@ -30,14 +30,18 @@ class Sampling_kx_ky:
             random_points[i] = random_point
         return random_points
 
-    def sample_cut(self, n_cut):
+    def sample_cut(self, n_cut, zero_shift=0.0001):
         """n cut is number of points in every direction"""
-        cut_x = np.linspace(0, 2 * np.pi / np.sqrt(3), n_cut)
+        cut_x = np.linspace(zero_shift, 2 * np.pi / np.sqrt(3), n_cut)
+        cut_x = np.delete(cut_x, -1)
         cut_x = np.append(cut_x, np.linspace(2 * np.pi / np.sqrt(3), 2 * np.pi / np.sqrt(3), n_cut))
-        cut_x = np.append(cut_x, np.linspace(2 * np.pi / np.sqrt(3), 0, n_cut))
-        cut_y = np.linspace(0, 0, n_cut)
-        cut_y = np.append(cut_y, np.linspace(0, 2 * np.pi / 3, n_cut))
-        cut_y = np.append(cut_y, np.linspace(2 * np.pi / 3, 0, n_cut))
+        cut_x = np.delete(cut_x, -1)
+        cut_x = np.append(cut_x, np.linspace(2 * np.pi / np.sqrt(3), zero_shift, n_cut))
+        cut_y = np.linspace(zero_shift, zero_shift, n_cut)
+        cut_y = np.delete(cut_y, -1)
+        cut_y = np.append(cut_y, np.linspace(zero_shift, 2 * np.pi / 3, n_cut))
+        cut_y = np.delete(cut_y, -1)
+        cut_y = np.append(cut_y, np.linspace(2 * np.pi / 3, zero_shift, n_cut))
         return cut_x, cut_y
 
     def uniform_sample_q_space(self, n_vector):
