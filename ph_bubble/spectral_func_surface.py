@@ -15,7 +15,7 @@ N_samples = 100000
 
 
 N = 20
-uniform = sample.uniform_sample(n_vector=16)
+uniform = sample.uniform_sample_q_space(n_vector=16)
 fermi_surf = spectral.spectral_surface(omega=0, N_vector=16, mu=2)
 print(len(uniform[0]))
 

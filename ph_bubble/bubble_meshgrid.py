@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from functions import Sampling_kx_ky, Bubble
 
-n_sampling = 100000
+n_sampling = 10000
 """corner points, 6 nearest neighbors"""
 corner_x = [0, 2 / np.sqrt(3) * np.pi, 2 / np.sqrt(3) * np.pi, 0, -2 / np.sqrt(3) * np.pi, -2 / np.sqrt(3) * np.pi, 0]
 corner_y = [4 * np.pi / 3, 2 * np.pi / 3, -2 * np.pi / 3, -4 * np.pi / 3, -2 * np.pi / 3, 2 * np.pi / 3, 4 * np.pi / 3]

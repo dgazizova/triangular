@@ -13,7 +13,6 @@ class Sampling_kx_ky:
 
     def sampling(self, N):
         """
-
         :type N: int
         """
         a = 2 * np.pi / np.sqrt(3)
@@ -41,7 +40,7 @@ class Sampling_kx_ky:
         cut_y = np.append(cut_y, np.linspace(2 * np.pi / 3, 0, n_cut))
         return cut_x, cut_y
 
-    def uniform_sample(self, n_vector):
+    def uniform_sample_q_space(self, n_vector):
         """function to uniformly sample hexagon using triangular grid"""
         #2 vectors of triangular lattice
         k1 = [2 * np.pi / np.sqrt(3), 2 * np.pi / 3]
@@ -62,7 +61,7 @@ class Sampling_kx_ky:
         uniform_points[1] = np.array(uniform_points[1])
         return uniform_points
 
-    def uniform_sample_triangle(self, n_vector):
+    def uniform_sample_triangle_q_space(self, n_vector):
         """function to uniformly sample only one triangle of hexagon using triangular grid"""
         #2 vectors of triangular lattice
         k1 = [2 * np.pi / np.sqrt(3), 2 * np.pi / 3]
@@ -81,6 +80,38 @@ class Sampling_kx_ky:
                 uniform_points[1].append(ky)
         uniform_points[0] = np.array(uniform_points[0])
         uniform_points[1] = np.array(uniform_points[1])
+        return uniform_points
+
+    def uniform_sample_r_space(self, n_vector):
+        """function to uniformly sample hexagon using triangular grid"""
+        # 2 vectors of triangular lattice
+        k1 = [np.sqrt(3) / 2, 1 / 2]
+        k2 = [0, 1]
+        uniform_points = [[], []]
+        k1 = np.array(k1)
+        k2 = np.array(k2)
+        for i in range(-n_vector, n_vector + 1):
+            for j in range(-n_vector, n_vector + 1):
+                kx = k1[0] * i + k2[0] * j
+                ky = k1[1] * i + k2[1] * j
+                # to cut points outside of hexagon
+                if i + j > n_vector or i + j < - n_vector:
+                    continue
+                uniform_points[0].append(kx)
+                uniform_points[1].append(ky)
+        uniform_points[0] = np.array(uniform_points[0])
+        uniform_points[1] = np.array(uniform_points[1])
+        return uniform_points
+
+    def uniform_sample_r_space_cut(self, n_vector, cut: int):
+        uniform_points = [[], []]
+        if cut == 1:
+            k = [np.sqrt(3) / 2, 1 / 2]
+        elif cut == 2:
+            k = [0, 1]
+        for i in range(n_vector):
+            uniform_points[0].append(k[0] * i)
+            uniform_points[1].append(k[1] * i)
         return uniform_points
 
 
@@ -122,14 +153,14 @@ class Bubble:
 
     def integrate_spectral_uniform(self, omega, N_vector, mu):
         sample = Sampling_kx_ky()
-        uniform_k = sample.uniform_sample(n_vector=N_vector)
+        uniform_k = sample.uniform_sample_q_space(n_vector=N_vector)
         N_samples = len(uniform_k[0])
         integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
         return integral, N_samples
 
     def spectral_surface(self, omega, N_vector, mu):
         sample = Sampling_kx_ky()
-        uniform_k = sample.uniform_sample(n_vector=N_vector)
+        uniform_k = sample.uniform_sample_q_space(n_vector=N_vector)
         # N_samples = len(uniform_k[0])
         spectral = np.vectorize(self.spectral_func)(uniform_k[0], uniform_k[1], omega, mu)
         return spectral
@@ -137,7 +168,7 @@ class Bubble:
 
     def integrate_spectral_uniform_triangle(self, omega, N_vector, mu):
         sample = Sampling_kx_ky()
-        uniform_k = sample.uniform_sample_triangle(n_vector=N_vector)
+        uniform_k = sample.uniform_sample_triangle_q_space(n_vector=N_vector)
         N_samples = len(uniform_k[0])
         integral = sum(self.spectral_func(uniform_k[0], uniform_k[1], omega, mu)) / N_samples
         return integral, N_samples
@@ -169,3 +200,19 @@ class Bubble:
     def integrate_lindhard_meshgrid(self, qx, qy, Omega, N_samples, mu):
         integral = np.vectorize(self.integrate_lindhard)(qx, qy, Omega, N_samples, mu)
         return integral
+
+    def FT(self, n_q_vector, data_q, n_r_vector, cut=False, cut_type=1):
+        sample = Sampling_kx_ky()
+        q_sample = sample.uniform_sample_q_space(n_q_vector)
+        qx, qy = q_sample[0], q_sample[1]
+        if cut:
+            r_sample = sample.uniform_sample_r_space_cut(n_r_vector, cut=cut_type)
+            rx, ry = r_sample[0], r_sample[1]
+        else:
+            r_sample = sample.uniform_sample_r_space(n_r_vector)
+            rx, ry = r_sample[0], r_sample[1]
+        N = len(rx)
+        data_r = np.zeros(N)
+        for i in range(N):
+            data_r[i] = np.sum(data_q * np.real(np.exp(1j * (qx * rx[i] + qy * ry[i])))) / N
+        return data_r
