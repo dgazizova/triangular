@@ -216,3 +216,17 @@ class Bubble:
         for i in range(N):
             data_r[i] = np.sum(data_q * np.real(np.exp(1j * (qx * rx[i] + qy * ry[i])))) / N
         return data_r
+
+    def FT_with_other_q(self, qx, qy, data_q, n_r_vector, cut=False, cut_type=1):
+        sample = Sampling_kx_ky()
+        if cut:
+            r_sample = sample.uniform_sample_r_space_cut(n_r_vector, cut=cut_type)
+            rx, ry = r_sample[0], r_sample[1]
+        else:
+            r_sample = sample.uniform_sample_r_space(n_r_vector)
+            rx, ry = r_sample[0], r_sample[1]
+        N = len(rx)
+        data_r = np.zeros(N)
+        for i in range(N):
+            data_r[i] = np.sum(data_q * np.real(np.exp(1j * (qx * rx[i] + qy * ry[i])))) / N
+        return data_r
