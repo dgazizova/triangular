@@ -20,7 +20,7 @@ print(len(uniform_points[0]))
 
 bubble = Bubble(t=1, beta=5, tp=0)
 bubble_res = bubble.integrate_lindhard_meshgrid(qx=uniform_points[0], qy=uniform_points[1], Omega=0, N_samples=N,
-                                                    mu=0)
+                                                    mu=2)
 
 """plot bubble diagram results"""
 # print(bubble_res)
